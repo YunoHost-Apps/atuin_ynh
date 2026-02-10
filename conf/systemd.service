@@ -14,7 +14,7 @@ Environment=ATUIN_CONFIG_DIR=__INSTALL_DIR__
 # configure RUST & Atuin logging
 EnvironmentFile=-__INSTALL_DIR__/atuin.env
 
-ExecStart=__INSTALL_DIR__/atuin server start
+ExecStart=__INSTALL_DIR__/atuin-server start
 
 Restart=on-failure
 RestartSec=2
