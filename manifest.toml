@@ -7,7 +7,7 @@ name = "Atuin"
 description.en = "Self-hosted Atuin for syncing and backing up encrypted shell history across devices"
 description.fr = "Atuin, pour synchroniser et sauvegarder votre historique de shell chiffré entre vos appareils."
 
-version = "18.11.0~ynh1"
+version = "18.12.0~ynh1"
 
 maintainers = ["ximikos"]
 
