@@ -55,7 +55,7 @@ ram.runtime = "100M"
 
     autoupdate.strategy = "latest_github_release"
     autoupdate.asset.amd64 = "^atuin-server-x86_64-unknown-linux-gnu\\.tar\\.gz$"
-    autoupdate.asset.arm64 = "^atuin--server-aarch64-unknown-linux-gnu\\.tar\\.gz$"
+    autoupdate.asset.arm64 = "^atuin-server-aarch64-unknown-linux-gnu\\.tar\\.gz$"
 
     [resources.system_user]
 
