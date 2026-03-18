@@ -7,7 +7,7 @@ name = "Atuin"
 description.en = "Self-hosted Atuin for syncing and backing up encrypted shell history across devices"
 description.fr = "Atuin, pour synchroniser et sauvegarder votre historique de shell chiffré entre vos appareils."
 
-version = "18.13.2~ynh1"
+version = "18.13.3~ynh1"
 
 maintainers = ["ximikos"]
 
@@ -48,10 +48,10 @@ ram.runtime = "100M"
     [resources.sources]
 
     [resources.sources.main]
-    amd64.url = "https://github.com/atuinsh/atuin/releases/download/v18.13.2/atuin-server-x86_64-unknown-linux-gnu.tar.gz"
-    amd64.sha256 = "0ad0cc25d05ec694f16e7b327c3a87f5a3b8277939e576559cfcd02ca2df908e"
-    arm64.url = "https://github.com/atuinsh/atuin/releases/download/v18.13.2/atuin-server-aarch64-unknown-linux-gnu.tar.gz"
-    arm64.sha256 = "7ba143abb15712e20c853043a306a84654f37573497c58211f386669b45a28d8"
+    amd64.url = "https://github.com/atuinsh/atuin/releases/download/v18.13.3/atuin-server-x86_64-unknown-linux-gnu.tar.gz"
+    amd64.sha256 = "811c5bf26ef0ca17dc93915e671a72caae93cb32f3d958e07121b4016227a902"
+    arm64.url = "https://github.com/atuinsh/atuin/releases/download/v18.13.3/atuin-server-aarch64-unknown-linux-gnu.tar.gz"
+    arm64.sha256 = "1cab46faf59cdb6a50a125dd972df005e8706c3817d91aea92499cf7d7aa46bf"
 
     autoupdate.strategy = "latest_github_release"
     autoupdate.asset.amd64 = "^atuin-server-x86_64-unknown-linux-gnu\\.tar\\.gz$"
