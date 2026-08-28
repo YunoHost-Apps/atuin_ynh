@@ -29,18 +29,37 @@ StandardError=journal
 NoNewPrivileges=yes
 PrivateTmp=yes
 PrivateDevices=yes
+PrivateUsers=yes
 RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
 RestrictNamespaces=yes
 RestrictRealtime=yes
+RestrictSUIDSGID=yes
+RemoveIPC=yes
 DevicePolicy=closed
 ProtectClock=yes
 ProtectHostname=yes
+# ProtectHome is disabled on purpose. The app's DATA_DIR (SQLite DB) legitimately
+# lives under /home (YunoHost convention /home/yunohost.app/__APP__):
+#  - ProtectHome=yes masks /home and ReadWritePaths does NOT pierce it, so the
+#    service crash-loops on "unable to open database file" (502).
+#  - ProtectHome=tmpfs + BindReadWritePaths fails to build the mount namespace on
+#    bookworm's systemd v252 (status=226/NAMESPACE).
+# On a YunoHost app container /home holds no real user homes (only yunohost.app),
+# so ProtectHome would protect almost nothing here. ProtectSystem=strict +
+# ReadWritePaths below still confine writes to DATA_DIR.
+ProtectHome=no
 ProtectProc=invisible
-ProtectSystem=full
+ProcSubset=pid
+# ProtectSystem=strict makes the whole FS read-only; the app only needs to
+# write its SQLite DB, so grant write access to DATA_DIR only.
+ProtectSystem=strict
+ReadWritePaths=__DATA_DIR__
 ProtectControlGroups=yes
+ProtectKernelLogs=yes
 ProtectKernelModules=yes
 ProtectKernelTunables=yes
 LockPersonality=yes
+UMask=0077
 SystemCallArchitectures=native
 SystemCallFilter=~@clock @debug @module @mount @obsolete @reboot @setuid @swap @cpu-emulation @privileged
 
