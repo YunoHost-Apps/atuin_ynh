@@ -30,7 +30,14 @@ NoNewPrivileges=yes
 PrivateTmp=yes
 PrivateDevices=yes
 PrivateUsers=yes
-RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+# atuin-server binds a TCP port and uses UNIX sockets; it does not need AF_NETLINK
+# (verified: startup + `atuin sync` OK without it on the live server).
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+# atuin-server only ever talks to nginx over the loopback interface
+# (127.0.0.1:__PORT__), so restrict all IP traffic to localhost.
+# Verified: `atuin sync` through nginx still works with this on the live server.
+IPAddressAllow=localhost
+IPAddressDeny=any
 RestrictNamespaces=yes
 RestrictRealtime=yes
 RestrictSUIDSGID=yes
@@ -59,21 +66,25 @@ ProtectKernelLogs=yes
 ProtectKernelModules=yes
 ProtectKernelTunables=yes
 LockPersonality=yes
+# atuin-server is a static Rust binary with no JIT, so it never needs writable+
+# executable memory (verified: start + sync OK with W^X enforced).
+MemoryDenyWriteExecute=yes
 UMask=0077
 SystemCallArchitectures=native
-SystemCallFilter=~@clock @debug @module @mount @obsolete @reboot @setuid @swap @cpu-emulation @privileged
+# Allowlist (deny-by-default) instead of a denylist: any syscall outside
+# @system-service is blocked, including future/unknown ones. On top of that we
+# still remove groups @system-service would otherwise allow. Verified: startup +
+# `atuin sync` OK on the live server.
+SystemCallFilter=@system-service
+SystemCallFilter=~@resources @privileged @setuid
 
-# Denying access to capabilities that should not be relevant for webapps
+# Drop the entire capability bounding set. atuin-server runs as a non-root user
+# (User=__APP__), listens on a high localhost port (127.0.0.1:__PORT__ behind
+# nginx) and only writes a local SQLite DB, so it needs no capabilities at all.
+# An empty set is stronger than the previous per-CAP denylist, which still left
+# CAP_KILL/CAP_CHOWN/CAP_SETUID/... in the set. Verified: start + sync OK.
 # Doc: https://man7.org/linux/man-pages/man7/capabilities.7.html
-CapabilityBoundingSet=~CAP_RAWIO CAP_MKNOD
-CapabilityBoundingSet=~CAP_AUDIT_CONTROL CAP_AUDIT_READ CAP_AUDIT_WRITE
-CapabilityBoundingSet=~CAP_SYS_BOOT CAP_SYS_TIME CAP_SYS_MODULE CAP_SYS_PACCT
-CapabilityBoundingSet=~CAP_LEASE CAP_LINUX_IMMUTABLE CAP_IPC_LOCK
-CapabilityBoundingSet=~CAP_BLOCK_SUSPEND CAP_WAKE_ALARM
-CapabilityBoundingSet=~CAP_SYS_TTY_CONFIG
-CapabilityBoundingSet=~CAP_MAC_ADMIN CAP_MAC_OVERRIDE
-CapabilityBoundingSet=~CAP_NET_ADMIN CAP_NET_BROADCAST CAP_NET_RAW
-CapabilityBoundingSet=~CAP_SYS_ADMIN CAP_SYS_PTRACE CAP_SYSLOG
+CapabilityBoundingSet=
 
 [Install]
 WantedBy=multi-user.target
