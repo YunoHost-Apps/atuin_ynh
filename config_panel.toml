@@ -4,9 +4,11 @@ version = "1.0"
 
   [main.registration]
   name.en = "Registration"
+  name.fr = "Inscription"
 
     [main.registration.open_registration]
     ask.en = "Allow new user registrations"
+    ask.fr = "Autoriser l'inscription de nouveaux utilisateurs"
     type = "boolean"
     yes = true
     no = false
