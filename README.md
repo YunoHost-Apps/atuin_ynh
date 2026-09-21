@@ -8,7 +8,7 @@ It shall NOT be edited by hand.
   Atuin, packaged for YunoHost
 </h1>
 
-Self-hosted Atuin for syncing and backing up encrypted shell history across devices
+Syncing and backing up encrypted shell history across devices
 
 [![🌐 Official app website](https://img.shields.io/badge/Official_app_website-darkgreen?style=for-the-badge)](https://atuin.sh)
 [![Version: 18.22.0~ynh1](https://img.shields.io/badge/Version-18.22.0~ynh1-rgb(18,138,11)?style=for-the-badge)](https://ci-apps.yunohost.org/ci/apps/atuin/)
