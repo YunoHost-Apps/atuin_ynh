@@ -6,7 +6,7 @@ User registration is disabled by default.
 
 You can enable or disable registrations using the YunoHost configuration panel:
 
-- Web admin → Applications → Atuin → Configuration → Registration
+- Webadmin → Applications → Atuin → Configuration → Registration
 
 This setting controls the `open_registration` option in `server.toml` and is applied automatically by restarting the Atuin service.
 
